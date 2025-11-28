@@ -1,0 +1,18 @@
+from fredapi import Fred
+import pandas as pd
+import matplotlib.pyplot as plt
+
+fred = Fred(api_key='f426ef0354b17504255b62fbf643d32e')
+
+start = '2021-01-01'
+
+unrate = fred.get_series('UNRATE', observation_start=start)
+civpart = fred.get_series('CIVPART', observation_start=start)
+
+econ_data = pd.concat(
+    [unrate, civpart],
+    axis=1
+).rename(columns={0: 'Unemployment Rate', 1: 'Participation Rate'})
+
+econ_data.plot(subplots=True, title="Labor Market")
+plt.show()
